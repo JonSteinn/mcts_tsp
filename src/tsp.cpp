@@ -49,3 +49,16 @@ float TSP::get_distance_between(int a, int b) {
 int TSP::get_number_of_data_points(void) {
     return this->matrix.size();
 }
+
+int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included) {
+    std::vector<float> distances = this->matrix[src];
+    int index = 0, best = -1, best_index = -1;
+    for (auto it = distances.begin(); it != distances.end(); ++it) {
+        if (index != src && (best == -1 or *it < best)) {
+            best = *it;
+            best_index = index;
+        }
+        index++;
+    }
+    return best_index;
+}
