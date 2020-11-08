@@ -21,18 +21,20 @@ struct Node
   }
   ~Node()
   {
-    for (auto it = begin(children); it != end(children); ++it)
+    while (not children.empty())
     {
-      delete it;
+      struct Node *to_delete = children.back();
+      children.pop_back();
+      delete to_delete;
     }
     delete this;
   }
   void expand(std::vector<int> &c)
   {
-    for (int it = begin(c); it != end(c); it++)
+    for (auto it = c.begin(); it != c.end(); it++)
     {
-      Node *child = new Node(it, this);
-      children.push_back(child)
+      Node *child = new Node(*it, this);
+      children.push_back(child);
     }
   }
   void reset()
@@ -41,20 +43,20 @@ struct Node
     {
       if (current_location == -1)
       {
-        (*it).reset()
+        (*it)->reset();
       }
       else
       {
-        delete it;
+        delete *it;
       }
+    }
+    if (current_location != -1)
+    {
+      children.clear();
     }
     Q = 0;
     N = 0;
     next_to_expand = 0;
-    if (current_location != -1)
-    {
-      children.clear()
-    }
   }
   struct Node *get_next()
   {
