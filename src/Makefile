@@ -1,13 +1,13 @@
 CXX = g++
-CXX_FLAGS = -Wall -Wextra -std=c++17
+CXX_FLAGS = -g -Wall -Wextra  -Werror -std=c++17
  
-main: main.o x.o
-	$(CXX) $(CXX_FLAGS) -o main.exe main.o x.o
+main: main.o tsp.o
+	$(CXX) $(CXX_FLAGS) -o main.exe main.o tsp.o
 
 main.o: main.cpp
 	$(CXX) $(CXX_FLAGS) -c main.cpp
 
-x.o: x.h
+tsp.o: tsp.h
 
 clean:
 	rm -f *.o

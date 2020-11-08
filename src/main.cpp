@@ -1,8 +1,7 @@
-#include "x.h"
+#include "tsp.h"
 #include <iostream>
 
 int main() {
-    int x = foo();
-    std::cout << x << std::endl;
+    TSP tsp1("data/tour001.txt");
     return 0;
 }
