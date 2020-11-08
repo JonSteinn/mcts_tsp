@@ -7,18 +7,18 @@ const int MAX = 10;
 
 struct Node
 {
-  int currentLocation;
-  float Q;
-  int N;
+  int current_location;
+  float q;
+  int n;
   struct Node *parent;
   std::vector<struct Node *> children;
-  int nextToExpand;
+  int next_to_expand;
   Node(int current, struct Node *p)
   {
-    currentLocation = current;
+    current_location = current;
     Q = 0;
     N = 0;
-    nextToExpand = 0;
+    next_to_expand = 0;
     parent = p;
   }
   ~Node()
@@ -37,9 +37,9 @@ struct Node
       children.push_back(child)
     }
   }
-  struct Node *getNext()
+  struct Node *get_next()
   {
-    return children[nextToExpand++];
+    return children[next_to_expand++];
   }
 };
 
