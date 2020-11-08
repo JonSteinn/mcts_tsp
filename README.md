@@ -5,3 +5,10 @@
 make -C src
 ./src/main.exe
 ```
+
+## Test data
+```
+lenght of optimal tour
+number of data points
+data, one per line
+```
