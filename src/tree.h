@@ -69,7 +69,7 @@ struct Node
   }
 
   bool fully_expanded() {
-    return next_to_expand >= children.size();
+    return next_to_expand >= (int)children.size();
   }
 };
 

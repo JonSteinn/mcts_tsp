@@ -1,22 +1,32 @@
 #include "mcts.h"
 
-MCTSAgent::MCTSAgent(int best, int max_l)
+MCTSAgent::MCTSAgent(TSP *tsp)
 {
-  best_path = best;
-  tree = new Node(-1, NULL);
-  max_location = max_l;
-  std::vector<int> v(max_location);
-  std::iota(std::begin(v), std::end(v), 0);
-  tree->expand(v);
+  tree = new Node(0, NULL);
+
+  // TODO: Remove, placehodler to use tsp
+  if (tsp->get_number_of_data_points() == -3) {
+    tree = nullptr;
+  }
 }
 
 MCTSAgent::~MCTSAgent()
 {
-  delete tree;
-  delete this;
+  // TODO:
 }
 
 void MCTSAgent::reset()
 {
   tree->reset();
+}
+
+void MCTSAgent::solve(std::vector<int> &path, double time_limit)
+{
+  // TODO: REmove, current is placeholder...
+  for (int i = 0; i < 5; i++) {
+    path.push_back(i);
+  }
+
+  // Tree-policty
+  // and so on...
 }

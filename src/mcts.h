@@ -4,17 +4,18 @@
 #include <vector>
 #include <numeric>
 #include "tree.h"
+#include "tsp.h"
 
 class MCTSAgent
 {
-  int best_path;
   struct Node *tree;
-  int max_location;
 
 public:
-  MCTSAgent(int best, int max_l);
+  MCTSAgent(TSP *tsp);
   ~MCTSAgent();
   void reset();
+
+  void solve(std::vector<int> &path, double time_limit);
 };
 
 #endif

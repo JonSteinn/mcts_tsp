@@ -73,3 +73,12 @@ int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
   }
   return best_index;
 }
+
+float TSP::calculate_cost_of_path(std::vector<int> &path)
+{
+  float total = 0.0f;
+  for (int i = 0; i < path.size() - 1; i++) {
+    total += this->matrix[path[i]][path[i+1]];
+  }
+  return total + this->matrix[path.back()][path[0]];
+}
