@@ -1,15 +1,13 @@
-#include <vector>
-
 #ifndef TREE_H
 #define TREE_H
 
-const int MAX = 10;
+#include <vector>
 
 struct Node
 {
   int current_location;
-  float q;
-  int n;
+  float Q;
+  int N;
   struct Node *parent;
   std::vector<struct Node *> children;
   int next_to_expand;
@@ -31,10 +29,31 @@ struct Node
   }
   void expand(std::vector<int> &c)
   {
-    for (auto it = begin(c); it != end(c); ++it)
+    for (int it = begin(c); it != end(c); it++)
     {
       Node *child = new Node(it, this);
       children.push_back(child)
+    }
+  }
+  void reset()
+  {
+    for (auto it = begin(children); it != end(children); ++it)
+    {
+      if (current_location == -1)
+      {
+        (*it).reset()
+      }
+      else
+      {
+        delete it;
+      }
+    }
+    Q = 0;
+    N = 0;
+    next_to_expand = 0;
+    if (current_location != -1)
+    {
+      children.clear()
     }
   }
   struct Node *get_next()
