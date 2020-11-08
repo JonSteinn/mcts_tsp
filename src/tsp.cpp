@@ -1,7 +1,8 @@
 #include "tsp.h"
 
 
-TSP::TSP(std::string file_name) {
+TSP::TSP(std::string file_name)
+{
   std::string line;
   std::ifstream tsp_file(file_name);
   int data_points = 0;
@@ -13,7 +14,8 @@ TSP::TSP(std::string file_name) {
     this->optimal_length = std::stof(line);
     std::getline(tsp_file, line);
     data_points = std::stoi(line);
-    for (int i = 0; i < data_points; i++) {
+    for (int i = 0; i < data_points; i++)
+    {
       std::getline(tsp_file, line);
       int delim_pos = line.find(" ");
       float x = std::stof(line.substr(0, delim_pos));
@@ -24,12 +26,15 @@ TSP::TSP(std::string file_name) {
   }
 
 
-  for (int i = 0; i < data_points; i++) {
+  for (int i = 0; i < data_points; i++)
+  {
     this->matrix.push_back(std::vector<float>(data_points, 0.0f));
   }
 
-  for (int i = 0; i < data_points; i++) {
-    for (int j = i + 1; j < data_points; j++) {
+  for (int i = 0; i < data_points; i++)
+  {
+    for (int j = i + 1; j < data_points; j++)
+    {
       float dx = std::get<0>(data[i]) - std::get<0>(data[j]);
       float dy = std::get<1>(data[i]) - std::get<1>(data[j]);
       this->matrix[i][j] = sqrtf(dx * dx + dy * dy);
@@ -38,23 +43,29 @@ TSP::TSP(std::string file_name) {
   }
 }
 
-float TSP::get_optimal_length(void) {
+float TSP::get_optimal_length(void)
+{
   return this->optimal_length;
 }
 
-float TSP::get_distance_between(int a, int b) {
+float TSP::get_distance_between(int a, int b)
+{
   return this->matrix[a][b];
 }
 
-int TSP::get_number_of_data_points(void) {
+int TSP::get_number_of_data_points(void)
+{
   return this->matrix.size();
 }
 
-int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included) {
+int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
+{
   std::vector<float> distances = this->matrix[src];
   int index = 0, best = -1, best_index = -1;
-  for (auto it = distances.begin(); it != distances.end(); ++it) {
-    if (index != src && (best == -1 or *it < best)) {
+  for (auto it = distances.begin(); it != distances.end(); ++it)
+  {
+    if (index != src && (best == -1 or *it < best))
+    {
       best = *it;
       best_index = index;
     }

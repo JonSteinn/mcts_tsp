@@ -11,6 +11,7 @@ struct Node
   struct Node *parent;
   std::vector<struct Node *> children;
   int next_to_expand;
+
   Node(int current, struct Node *p)
   {
     current_location = current;
@@ -19,6 +20,7 @@ struct Node
     next_to_expand = 0;
     parent = p;
   }
+
   ~Node()
   {
     while (not children.empty())
@@ -29,14 +31,16 @@ struct Node
     }
     delete this;
   }
-  void expand(std::vector<int> &c)
+
+  void expand(std::vector<int> &possible_moves)
   {
-    for (auto it = c.begin(); it != c.end(); it++)
+    for (auto it = possible_moves.begin(); it != possible_moves.end(); it++)
     {
       Node *child = new Node(*it, this);
       children.push_back(child);
     }
   }
+
   void reset()
   {
     for (auto it = begin(children); it != end(children); ++it)
@@ -58,9 +62,14 @@ struct Node
     N = 0;
     next_to_expand = 0;
   }
+
   struct Node *get_next()
   {
     return children[next_to_expand++];
+  }
+
+  bool fully_expanded() {
+    return next_to_expand >= children.size();
   }
 };
 

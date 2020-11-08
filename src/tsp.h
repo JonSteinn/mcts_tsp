@@ -9,11 +9,12 @@
 #include <math.h>
 #include <unordered_set>
 
-class TSP {
+class TSP
+{
 private:
     std::vector<std::vector<float>> matrix;
     float optimal_length;
-    
+
 public:
     TSP(std::string file_name);
     float get_optimal_length(void);
