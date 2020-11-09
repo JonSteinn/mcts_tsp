@@ -3,11 +3,8 @@
 MCTSAgent::MCTSAgent(TSP *tsp)
 {
   tree = new Node(0, NULL);
-
-  // TODO: Remove, placehodler to use tsp
-  if (tsp->get_number_of_data_points() == -3) {
-    tree = nullptr;
-  }
+  this->tsp = tsp;
+  this->start_time = std::chrono::high_resolution_clock::now();
 }
 
 MCTSAgent::~MCTSAgent()
@@ -29,4 +26,12 @@ void MCTSAgent::solve(std::vector<int> &path, double time_limit)
 
   // Tree-policty
   // and so on...
+}
+
+
+
+double MCTSAgent::elapsed_time() {
+  timing now = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = now - this->start_time;
+  return elapsed.count();
 }
