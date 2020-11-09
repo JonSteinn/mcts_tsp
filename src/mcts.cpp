@@ -13,6 +13,16 @@ MCTSAgent::~MCTSAgent()
   delete tree;
 }
 
+void MCTSAgent::move_root(Node *node)
+{
+  if (not node->is_root())
+  {
+    node->make_root();
+    delete this->tree;
+    tree = node;
+  }
+}
+
 int MCTSAgent::next_move()
 {
   if (this->retired_moves.empty())
@@ -97,7 +107,7 @@ void MCTSAgent::back_propagate(float score, Node *node)
 {
   node->N += 1;
   node->Q += score;
-  if (node->parent != NULL)
+  if (not node->is_root())
   {
     MCTSAgent::back_propagate(score, node->parent);
   }

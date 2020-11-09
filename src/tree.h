@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include <vector>
+#include <algorithm>
 
 struct Node
 {
@@ -38,6 +39,18 @@ struct Node
       Node *child = new Node(*it, this);
       children.push_back(child);
     }
+  }
+
+  bool is_root()
+  {
+    return parent == NULL;
+  }
+
+  void make_root()
+  {
+    parent->children.erase(
+        std::remove(parent->children.begin(), parent->children.end(), this), parent->children.end());
+    parent = NULL;
   }
 
   struct Node *get_next()
