@@ -44,6 +44,12 @@ float MCTSAgent::simulation(Node *node)
 
 void MCTSAgent::back_propagate(float score, Node *node)
 {
+  node->N += 1;
+  node->Q += score;
+  if (node->parent != NULL)
+  {
+    MCTSAgent::back_propagate(score, node->parent);
+  }
 }
 
 float MCTSAgent::score(Node *node)
