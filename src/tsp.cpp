@@ -62,12 +62,13 @@ int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
   int index = 0, best = -1, best_index = -1;
   for (auto it = distances.begin(); it != distances.end(); ++it)
   {
-    if (not_included.find(index) != not_included.end())
-      continue;
-    if (index != src && (best == -1 or *it < best))
+    if (not_included.find(index) == not_included.end())
     {
-      best = *it;
-      best_index = index;
+      if (index != src && (best == -1 or *it < best))
+      {
+        best = *it;
+        best_index = index;
+      }
     }
     index++;
   }

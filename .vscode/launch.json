@@ -8,7 +8,11 @@
       "program": "${workspaceFolder}/src/main.exe",
       "args": [
         "-f",
-        "data/tour001.txt"
+        "data/tour001.txt",
+        "-a",
+        "0",
+        "-t",
+        "10"
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
