@@ -39,9 +39,24 @@ int MCTSAgent::next_move()
     float tree_cost = 0.0f;
     Node *new_node = this->tree_policy(available_moves, &tree_cost);
     float score = tree_cost + this->simulation(new_node, available_moves);
-    // 3. Back propagate
+    this->back_propagate(score, new_node);
   }
-  return this->fake_move++;
+
+  Node *best_move = nullptr;
+  int best = -1;
+  for (auto it = this->tree->children.begin(); it != this->tree->children.end(); ++it)
+  {
+    if ((*it)->N > best)
+    {
+      best = (*it)->N;
+      best_move = *it;
+    }
+  }
+
+  int move = best_move->current_location;
+  this->retired_moves.insert(move);
+  this->move_root(best_move);
+  return move;
 }
 
 bool MCTSAgent::time_is_up()
