@@ -44,6 +44,7 @@ int MCTSAgent::next_move()
     Node *new_node = this->tree_policy(available_moves, &tree_cost);
     float score = tree_cost + this->simulation(new_node, available_moves);
     this->back_propagate(score, new_node);
+    available_moves.clear();
   }
 
   Node *best_move = nullptr;
@@ -77,6 +78,10 @@ Node *MCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost
   {
     Node *next = nullptr;
     float best = std::numeric_limits<float>::max();
+
+    if (curr->children.empty())
+      return curr;
+
     for (auto it = curr->children.begin(); it != curr->children.end(); ++it)
     {
       float curr_score = this->score(*it);
@@ -86,6 +91,7 @@ Node *MCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost
         best = curr_score;
       }
     }
+
     *tree_cost += this->tsp->get_distance_between(curr->current_location, next->current_location);
     curr = next;
     this->retired_moves.insert(next->current_location);
