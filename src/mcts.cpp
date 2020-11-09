@@ -3,6 +3,12 @@
 MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
 {
   tree = new Node(0, NULL);
+  for (int i = 1; i < tsp->get_number_of_data_points(); i++)
+  {
+    tree->children.push_back(new Node(i, tree));
+  }
+
+
   this->tsp = tsp;
   this->time_limit = time_limit;
   this->fake_move = 0;
@@ -75,9 +81,12 @@ Node *MCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost
     float best = std::numeric_limits<float>::max();
     for (auto it = curr->children.begin(); it != curr->children.end(); ++it)
     {
+      std::cout << "yo" << std::endl;
       float curr_score = this->score(*it);
+      std::cout << curr_score << std::endl;
       if (curr_score < best)
       {
+        std::cout << "yo" << std::endl;
         next = *it;
         best = curr_score;
       }

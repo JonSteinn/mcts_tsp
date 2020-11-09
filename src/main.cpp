@@ -44,6 +44,7 @@ void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit)
   while ((int)path.size() < tsp.get_number_of_data_points())
   {
     path.push_back(agent.next_move());
+    std::cout << path.back() << std::endl;
   }
 }
 

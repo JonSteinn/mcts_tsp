@@ -1,5 +1,5 @@
 CXX = g++
-CXX_FLAGS = -g -Wall -Wextra  -Werror -std=c++17
+CXX_FLAGS = -Wall -Wextra  -Werror -std=c++17 -g
 OBJFLAGS = -c
 
 TARGET = main
