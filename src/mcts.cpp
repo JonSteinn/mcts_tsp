@@ -113,6 +113,7 @@ void MCTSAgent::back_propagate(float score, Node *node)
   node->Q += score;
   if (not node->is_root())
   {
+    this->retired_moves.erase(node->current_location);
     MCTSAgent::back_propagate(score, node->parent);
   }
 }
