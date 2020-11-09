@@ -1,5 +1,4 @@
 #include "mcts.h"
-#include <algorithm>
 
 MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
 {

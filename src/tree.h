@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include <vector>
+#include <algorithm>
 
 struct Node
 {
