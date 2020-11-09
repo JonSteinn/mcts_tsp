@@ -15,6 +15,7 @@ Below is an example.
 ./src/main.exe -a 0 -t 5 -f data/tour001.txt
 ```
 The algorithms available are
+
   0. MCTS
   1. Greedy (shortest next)
 
