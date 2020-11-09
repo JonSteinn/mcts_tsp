@@ -40,6 +40,18 @@ struct Node
     }
   }
 
+  bool is_root()
+  {
+    return parent == NULL;
+  }
+
+  void make_root()
+  {
+    parent->children.erase(
+        std::remove(parent->children.begin(), parent->children.end(), this), parent->children.end());
+    parent = NULL;
+  }
+
   struct Node *get_next()
   {
     return children[next_to_expand++];

@@ -29,6 +29,7 @@ public:
   MCTSAgent(TSP *tsp, double time_limit);
   ~MCTSAgent();
 
+  void move_root(Node *node);
   int next_move();
 
   Node *tree_policy(std::vector<int> &available_moves);
