@@ -40,8 +40,11 @@ bool parse_args(int argc, char **argv, CommandLineArguments *cmd_args)
 
 void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit)
 {
-  MCTSAgent agent(&tsp);
-  agent.solve(path, time_limit);
+  MCTSAgent agent(&tsp, time_limit);
+  while ((int)path.size() < tsp.get_number_of_data_points())
+  {
+    path.push_back(agent.next_move());
+  }
 }
 
 void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)

@@ -1,10 +1,11 @@
 #include "mcts.h"
 
-MCTSAgent::MCTSAgent(TSP *tsp)
+MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
 {
   tree = new Node(0, NULL);
   this->tsp = tsp;
-  this->start_time = std::chrono::high_resolution_clock::now();
+  this->time_limit = time_limit;
+  this->fake_move = 0;
 }
 
 MCTSAgent::~MCTSAgent()
@@ -12,34 +13,33 @@ MCTSAgent::~MCTSAgent()
   delete tree;
 }
 
-void MCTSAgent::solve(std::vector<int> &path, double time_limit)
+int MCTSAgent::next_move()
 {
-  while (this->elapsed_time() < time_limit)
+  this->start_time = std::chrono::high_resolution_clock::now();
+  while (not this->time_is_up())
   {
     // 1. Tree policy
     // 2. Playouts
     // 3. Back propagate
   }
-  // take best path, fill in gap with greedy alg
-
-  // fake using of variable: TODO: REMOVE
-  path.push_back(0);
-  path.push_back(1);
+  return this->fake_move++;
 }
 
-double MCTSAgent::elapsed_time()
+bool MCTSAgent::time_is_up()
 {
   timing now = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = now - this->start_time;
-  return elapsed.count();
+  return elapsed.count() >= this->time_limit;
 }
 
 Node MCTSAgent::*tree_policy()
 {
+  return nullptr;
 }
 
 float MCTSAgent::simulation(Node *node)
 {
+  return 0.0f;
 }
 
 void MCTSAgent::back_propagate(float score, Node *node)

@@ -15,14 +15,16 @@ private:
   struct Node *tree;
   TSP *tsp;
   timing start_time;
+  double time_limit;
+  int fake_move; // TODO: REMOVE_ME
 
-  double elapsed_time();
+  bool time_is_up();
 
 public:
-  MCTSAgent(TSP *tsp);
+  MCTSAgent(TSP *tsp, double time_limit);
   ~MCTSAgent();
 
-  void solve(std::vector<int> &path, double time_limit);
+  int next_move();
 
   Node *tree_policy();
   float simulation(Node *node);
