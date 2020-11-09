@@ -5,6 +5,13 @@
 make -C src
 ```
 
+## Clean build
+```sh
+make -C src clean
+make -C src distclean
+make -C src
+```
+
 ## Run and arguments
 There are 3 arguments available,
   * `-a <value>` for algorithm
