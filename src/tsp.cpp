@@ -1,6 +1,5 @@
 #include "tsp.h"
 
-
 TSP::TSP(std::string file_name)
 {
   std::string line;
@@ -24,7 +23,6 @@ TSP::TSP(std::string file_name)
     }
     tsp_file.close();
   }
-
 
   for (int i = 0; i < data_points; i++)
   {
@@ -77,8 +75,9 @@ int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
 float TSP::calculate_cost_of_path(std::vector<int> &path)
 {
   float total = 0.0f;
-  for (int i = 0; i < path.size() - 1; i++) {
-    total += this->matrix[path[i]][path[i+1]];
+  for (int i = 0; i < path.size() - 1; i++)
+  {
+    total += this->matrix[path[i]][path[i + 1]];
   }
   return total + this->matrix[path.back()][path[0]];
 }

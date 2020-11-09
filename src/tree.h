@@ -45,7 +45,8 @@ struct Node
     return children[next_to_expand++];
   }
 
-  bool fully_expanded() {
+  bool fully_expanded()
+  {
     return next_to_expand >= (int)children.size();
   }
 };

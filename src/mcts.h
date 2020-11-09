@@ -13,7 +13,7 @@ class MCTSAgent
 {
 private:
   struct Node *tree;
-  TSP* tsp;
+  TSP *tsp;
   timing start_time;
 
   double elapsed_time();

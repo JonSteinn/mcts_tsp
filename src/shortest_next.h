@@ -9,10 +9,10 @@ class ShortestNextGreedyAgent
 {
 private:
   TSP *tsp;
+
 public:
   ShortestNextGreedyAgent(TSP *tsp);
   void solve(std::vector<int> &path);
 };
 
 #endif
-

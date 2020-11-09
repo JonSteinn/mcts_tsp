@@ -1,6 +1,5 @@
 #include "shortest_next.h"
 
-
 ShortestNextGreedyAgent::ShortestNextGreedyAgent(TSP *tsp)
 {
   this->tsp = tsp;

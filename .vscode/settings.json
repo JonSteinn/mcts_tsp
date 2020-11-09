@@ -1,4 +1,6 @@
 {
+    "editor.formatOnSave": true,
+    "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": true
     "files.associations": {
         "array": "cpp",
         "atomic": "cpp",

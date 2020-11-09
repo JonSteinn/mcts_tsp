@@ -22,15 +22,13 @@ void MCTSAgent::solve(std::vector<int> &path, double time_limit)
   }
   // take best path, fill in gap with greedy alg
 
-
   // fake using of variable: TODO: REMOVE
   path.push_back(0);
   path.push_back(1);
 }
 
-
-
-double MCTSAgent::elapsed_time() {
+double MCTSAgent::elapsed_time()
+{
   timing now = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = now - this->start_time;
   return elapsed.count();
