@@ -27,8 +27,7 @@ int MCTSAgent::next_move()
   while (not this->time_is_up())
   {
     Node *new_node = this->tree_policy(available_moves);
-    // 1. Tree policy
-    // 2. Playouts
+    float score = this->simulation(new_node, available_moves);
     // 3. Back propagate
   }
   return this->fake_move++;
@@ -76,9 +75,22 @@ Node *MCTSAgent::tree_policy(std::vector<int> &available_moves)
   return curr;
 }
 
-float MCTSAgent::simulation(Node *node)
+float MCTSAgent::simulation(Node *node, std::vector<int> &possible_moves)
 {
-  return 0.0f;
+  if (possible_moves.empty())
+  {
+    return tsp->get_distance_between(node->current_location, 0);
+  }
+
+  unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(possible_moves.begin(), possible_moves.end(), std::default_random_engine(num));
+  float cost = this->tsp->get_distance_between(node->current_location, possible_moves[0]);
+  cost += this->tsp->get_distance_between(possible_moves.back(), 0);
+  for (int i = 1; i < possible_moves.size(); i++)
+  {
+    cost += tsp->get_distance_between(possible_moves[i - 1], possible_moves[i]);
+  }
+  return cost;
 }
 
 void MCTSAgent::back_propagate(float score, Node *node)

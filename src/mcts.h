@@ -4,6 +4,8 @@
 #include <chrono>
 #include <vector>
 #include <limits>
+#include <algorithm>
+#include <random>
 #include <unordered_set>
 #include <numeric>
 #include "tree.h"
@@ -32,7 +34,7 @@ public:
   int next_move();
 
   Node *tree_policy(std::vector<int> &available_moves);
-  float simulation(Node *node);
+  float simulation(Node *node, std::vector<int> &possible_moves);
   void back_propagate(float score, Node *node);
   float score(Node *node);
 };
