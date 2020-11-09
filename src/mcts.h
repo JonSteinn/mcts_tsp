@@ -12,6 +12,7 @@ typedef std::chrono::_V2::system_clock::time_point timing;
 class MCTSAgent
 {
 private:
+  const int C = 1;
   struct Node *tree;
   TSP *tsp;
   timing start_time;
@@ -27,6 +28,7 @@ public:
   Node *tree_policy();
   float simulation(Node *node);
   void back_propagate(float score, Node *node);
+  float score(Node *node);
 };
 
 #endif
