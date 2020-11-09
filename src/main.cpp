@@ -5,7 +5,8 @@
 #include <iostream>
 #include <getopt.h>
 
-typedef struct {
+typedef struct
+{
   const char *data;
   int algorithm;
   double time_limit;
@@ -37,17 +38,20 @@ bool parse_args(int argc, char **argv, CommandLineArguments *cmd_args)
   return cmd_args->data != nullptr;
 }
 
-void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit) {
+void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit)
+{
   MCTSAgent agent(&tsp);
   agent.solve(path, time_limit);
 }
 
-void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path) {
+void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)
+{
   ShortestNextGreedyAgent agent(&tsp);
   agent.solve(path);
 }
 
-void solve(TSP &tsp, std::vector<int> &path, int algorithm, double time_limit) {
+void solve(TSP &tsp, std::vector<int> &path, int algorithm, double time_limit)
+{
   switch (algorithm)
   {
   case 0:
@@ -75,7 +79,7 @@ int main(int argc, char **argv)
     float cost = tsp.calculate_cost_of_path(path);
     std::cout << "Cost: " << cost << "\n";
     std::cout << "Optimal cost: " << tsp.get_optimal_length() << "\n";
-    std::cout << "Ratio cost/optimal: " << cost/tsp.get_optimal_length() << "\n";
+    std::cout << "Ratio cost/optimal: " << cost / tsp.get_optimal_length() << "\n";
   }
   return 0;
 }
