@@ -31,15 +31,6 @@ $(SHORTEST_NEXT).o: $(SHORTEST_NEXT).cpp
 $(TSP).o: $(TSP).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(TSP).cpp
 
-define MAKE_DOT_O
-$(1).o: $(1).cpp
-	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $($(1)).cpp
-endef
-
-#$(call MAKE_DOT_O,MCTS)
-#$(call MAKE_DOT_O,SHORTEST_NEXT)
-#$(call MAKE_DOT_O,TSP)
-
 clean:
 	rm -f *.o
 
