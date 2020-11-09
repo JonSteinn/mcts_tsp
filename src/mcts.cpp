@@ -36,8 +36,9 @@ int MCTSAgent::next_move()
 
   while (not this->time_is_up())
   {
-    Node *new_node = this->tree_policy(available_moves);
-    float score = this->simulation(new_node, available_moves);
+    float tree_cost = 0.0f;
+    Node *new_node = this->tree_policy(available_moves, &tree_cost);
+    float score = tree_cost + this->simulation(new_node, available_moves);
     // 3. Back propagate
   }
   return this->fake_move++;
@@ -50,7 +51,7 @@ bool MCTSAgent::time_is_up()
   return elapsed.count() >= this->time_limit;
 }
 
-Node *MCTSAgent::tree_policy(std::vector<int> &available_moves)
+Node *MCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost)
 {
   Node *curr = this->tree;
   while (curr->fully_expanded())
@@ -66,10 +67,13 @@ Node *MCTSAgent::tree_policy(std::vector<int> &available_moves)
         best = curr_score;
       }
     }
+    *tree_cost += this->tsp->get_distance_between(curr->current_location, next->current_location);
+    curr = next;
     this->retired_moves.insert(next->current_location);
   }
 
   curr = curr->get_next();
+  *tree_cost += this->tsp->get_distance_between(curr->parent->current_location, curr->current_location);
   this->retired_moves.insert(curr->current_location);
 
   int n = this->tsp->get_number_of_data_points();
