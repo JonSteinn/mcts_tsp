@@ -16,12 +16,13 @@ typedef std::chrono::_V2::system_clock::time_point timing;
 class MCTSAgent
 {
 private:
-  const int C = 1;
+  const int C = 500;
   struct Node *tree;
   TSP *tsp;
   timing start_time;
   double time_limit;
   std::unordered_set<int> retired_moves;
+  float cost_so_far;
 
   bool time_is_up();
 

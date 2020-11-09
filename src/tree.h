@@ -53,6 +53,11 @@ struct Node
     parent = NULL;
   }
 
+  bool is_leaf()
+  {
+    return children.empty();
+  }
+
   struct Node *get_next()
   {
     return children[next_to_expand++];
