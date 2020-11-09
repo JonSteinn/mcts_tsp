@@ -62,6 +62,8 @@ int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
   int index = 0, best = -1, best_index = -1;
   for (auto it = distances.begin(); it != distances.end(); ++it)
   {
+    if (not_included.find(index) != not_included.end())
+      continue;
     if (index != src && (best == -1 or *it < best))
     {
       best = *it;
@@ -75,7 +77,7 @@ int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
 float TSP::calculate_cost_of_path(std::vector<int> &path)
 {
   float total = 0.0f;
-  for (int i = 0; i < path.size() - 1; i++)
+  for (unsigned int i = 0; i < path.size() - 1; i++)
   {
     total += this->matrix[path[i]][path[i + 1]];
   }

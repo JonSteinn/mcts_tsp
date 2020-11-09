@@ -8,7 +8,7 @@ ShortestNextGreedyAgent::ShortestNextGreedyAgent(TSP *tsp)
 void ShortestNextGreedyAgent::solve(std::vector<int> &path)
 {
   std::unordered_set<int> visited;
-  int length = this->tsp->get_number_of_data_points();
+  unsigned int length = (unsigned int)this->tsp->get_number_of_data_points();
   path.push_back(0);
   visited.insert(0);
 

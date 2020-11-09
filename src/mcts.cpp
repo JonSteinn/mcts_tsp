@@ -119,7 +119,7 @@ float MCTSAgent::simulation(Node *node, std::vector<int> &possible_moves)
   std::shuffle(possible_moves.begin(), possible_moves.end(), std::default_random_engine(num));
   float cost = this->tsp->get_distance_between(node->current_location, possible_moves[0]);
   cost += this->tsp->get_distance_between(possible_moves.back(), 0);
-  for (int i = 1; i < possible_moves.size(); i++)
+  for (unsigned int i = 1; i < possible_moves.size(); i++)
   {
     cost += tsp->get_distance_between(possible_moves[i - 1], possible_moves[i]);
   }

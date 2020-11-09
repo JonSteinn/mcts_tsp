@@ -21,10 +21,13 @@ $(TARGET): $(TARGET).o $(INCLUDED)
 
 $(TARGET).o: $(TARGET).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(TARGET).cpp
+
 $(MCTS).o: $(MCTS).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(MCTS).cpp
+
 $(SHORTEST_NEXT).o: $(SHORTEST_NEXT).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(SHORTEST_NEXT).cpp
+
 $(TSP).o: $(TSP).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(TSP).cpp
 
