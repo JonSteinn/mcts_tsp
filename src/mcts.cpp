@@ -45,3 +45,10 @@ float MCTSAgent::simulation(Node *node)
 void MCTSAgent::back_propagate(float score, Node *node)
 {
 }
+
+float MCTSAgent::score(Node *node)
+{
+  float avg = node->Q / node->N;
+  float member2 = this->C * sqrt(log(node->parent->N) / node->N);
+  return avg - member2;
+}
