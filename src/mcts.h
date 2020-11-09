@@ -10,19 +10,21 @@
 #include <numeric>
 #include "tree.h"
 #include "tsp.h"
+#include "shortest_next.h"
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
 class MCTSAgent
 {
 private:
-  const int C = 500;
+  const float C = 1.41421356;
   struct Node *tree;
   TSP *tsp;
   timing start_time;
   double time_limit;
   std::unordered_set<int> retired_moves;
   float cost_so_far;
+  float greedy_cost;
 
   bool time_is_up();
 

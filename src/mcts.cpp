@@ -11,6 +11,11 @@ MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
   this->tsp = tsp;
   this->time_limit = time_limit;
   this->cost_so_far = 0.0f;
+
+  ShortestNextGreedyAgent agent(tsp);
+  std::vector<int> path;
+  agent.solve(path);
+  this->greedy_cost = tsp->calculate_cost_of_path(path);
 }
 
 MCTSAgent::~MCTSAgent()
@@ -43,7 +48,7 @@ int MCTSAgent::next_move()
   {
     float tree_cost = 0.0f;
     Node *new_node = this->tree_policy(available_moves, &tree_cost);
-    float score = this->cost_so_far + tree_cost + this->simulation(new_node, available_moves);
+    float score = (this->cost_so_far + tree_cost + this->simulation(new_node, available_moves)) / this->greedy_cost;
     this->back_propagate(score, new_node);
     available_moves.clear();
   }
