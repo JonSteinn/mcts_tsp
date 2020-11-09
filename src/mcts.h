@@ -21,7 +21,6 @@ private:
 public:
   MCTSAgent(TSP *tsp);
   ~MCTSAgent();
-  void reset();
 
   void solve(std::vector<int> &path, double time_limit);
 };

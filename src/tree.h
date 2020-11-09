@@ -29,7 +29,6 @@ struct Node
       children.pop_back();
       delete to_delete;
     }
-    delete this;
   }
 
   void expand(std::vector<int> &possible_moves)
@@ -39,28 +38,6 @@ struct Node
       Node *child = new Node(*it, this);
       children.push_back(child);
     }
-  }
-
-  void reset()
-  {
-    for (auto it = begin(children); it != end(children); ++it)
-    {
-      if (current_location == -1)
-      {
-        (*it)->reset();
-      }
-      else
-      {
-        delete *it;
-      }
-    }
-    if (current_location != -1)
-    {
-      children.clear();
-    }
-    Q = 0;
-    N = 0;
-    next_to_expand = 0;
   }
 
   struct Node *get_next()

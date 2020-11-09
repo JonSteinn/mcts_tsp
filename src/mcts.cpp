@@ -9,23 +9,23 @@ MCTSAgent::MCTSAgent(TSP *tsp)
 
 MCTSAgent::~MCTSAgent()
 {
-  // TODO:
-}
-
-void MCTSAgent::reset()
-{
-  tree->reset();
+  delete tree;
 }
 
 void MCTSAgent::solve(std::vector<int> &path, double time_limit)
 {
-  // TODO: REmove, current is placeholder...
-  for (int i = 0; i < 5; i++) {
-    path.push_back(i);
+  while (this->elapsed_time() < time_limit)
+  {
+    // 1. Tree policy
+    // 2. Playouts
+    // 3. Back propagate
   }
+  // take best path, fill in gap with greedy alg
 
-  // Tree-policty
-  // and so on...
+
+  // fake using of variable: TODO: REMOVE
+  path.push_back(0);
+  path.push_back(1);
 }
 
 
