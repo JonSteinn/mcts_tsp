@@ -10,7 +10,6 @@ MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
 
   this->tsp = tsp;
   this->time_limit = time_limit;
-  this->fake_move = 0;
 }
 
 MCTSAgent::~MCTSAgent()

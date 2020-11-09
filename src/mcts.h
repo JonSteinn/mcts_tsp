@@ -23,8 +23,6 @@ private:
   double time_limit;
   std::unordered_set<int> retired_moves;
 
-  int fake_move; // TODO: REMOVE_ME
-
   bool time_is_up();
 
 public:

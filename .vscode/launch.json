@@ -6,7 +6,10 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/src/main.exe",
-      "args": [],
+      "args": [
+        "-f",
+        "data/tour001.txt"
+      ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
