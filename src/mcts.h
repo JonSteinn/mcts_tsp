@@ -23,6 +23,10 @@ public:
   ~MCTSAgent();
 
   void solve(std::vector<int> &path, double time_limit);
+
+  Node *tree_policy();
+  float simulation(Node *node);
+  void back_propagate(float score, Node *node);
 };
 
 #endif
