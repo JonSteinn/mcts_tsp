@@ -27,18 +27,16 @@ private:
   float greedy_cost;
 
   bool time_is_up();
-
-public:
-  MCTSAgent(TSP *tsp, double time_limit);
-  ~MCTSAgent();
-
   void move_root(Node *node);
-  int next_move();
-
   Node *tree_policy(std::vector<int> &available_moves, float *tree_cost);
   float simulation(Node *node, std::vector<int> &possible_moves);
   void back_propagate(float score, Node *node);
   float score(Node *node);
+
+public:
+  MCTSAgent(TSP *tsp, double time_limit);
+  ~MCTSAgent();
+  int next_move();
 };
 
 #endif

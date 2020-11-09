@@ -128,6 +128,28 @@ float MCTSAgent::simulation(Node *node, std::vector<int> &possible_moves)
     return tsp->get_distance_between(node->current_location, 0);
   }
 
+  /*float cost = 0.0f;
+  int last = node->current_location;
+  std::unordered_set<int> visited(possible_moves.begin(), possible_moves.end());
+  while (!visited.empty())
+  {
+    int best_node = -1;
+    float best = std::numeric_limits<float>::max();
+    for (auto it = visited.begin(); it != visited.end(); ++it)
+    {
+      float dist = tsp->get_distance_between(last, *it);
+      if (dist < best)
+      {
+        best = dist;
+        best_node = *it;
+      }
+    }
+    cost += best;
+    last = best_node;
+    visited.erase(last);
+  }
+  return cost + tsp->get_distance_between(last, 0);*/
+
   unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
   std::shuffle(possible_moves.begin(), possible_moves.end(), std::default_random_engine(num));
   float cost = this->tsp->get_distance_between(node->current_location, possible_moves[0]);
