@@ -33,3 +33,15 @@ double MCTSAgent::elapsed_time()
   std::chrono::duration<double> elapsed = now - this->start_time;
   return elapsed.count();
 }
+
+Node MCTSAgent::*tree_policy()
+{
+}
+
+float MCTSAgent::simulation(Node *node)
+{
+}
+
+void MCTSAgent::back_propagate(float score, Node *node)
+{
+}
