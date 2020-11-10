@@ -58,6 +58,8 @@ struct FP_Node
           best_node = i;
         }
       }
+
+      // Swap
       FP_Node *tmp = children[next_to_expand];
       children[next_to_expand] = children[best_node];
       children[best_node] = tmp;
@@ -98,6 +100,7 @@ private:
   TSP *tsp;
   float greedy_cost;
   float C;
+  std::mt19937 m_mt;
 
   timing start_time;
   double time_limit;
