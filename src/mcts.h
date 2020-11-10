@@ -78,7 +78,7 @@ struct Node
   }
 };
 
-class MCTSAgent
+class TurnBasedMCTSAgent
 {
 private:
   const float C = 1.41421356;
@@ -98,8 +98,8 @@ private:
   float score(Node *node);
 
 public:
-  MCTSAgent(TSP *tsp, double time_limit);
-  ~MCTSAgent();
+  TurnBasedMCTSAgent(TSP *tsp, double time_limit);
+  ~TurnBasedMCTSAgent();
   int next_move();
 };
 

@@ -1,6 +1,6 @@
 #include "mcts.h"
 
-MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
+TurnBasedMCTSAgent::TurnBasedMCTSAgent(TSP *tsp, double time_limit)
 {
   tree = new Node(0, NULL);
   for (int i = 1; i < tsp->get_number_of_data_points(); i++)
@@ -18,12 +18,12 @@ MCTSAgent::MCTSAgent(TSP *tsp, double time_limit)
   this->greedy_cost = tsp->calculate_cost_of_path(path);
 }
 
-MCTSAgent::~MCTSAgent()
+TurnBasedMCTSAgent::~TurnBasedMCTSAgent()
 {
   delete tree;
 }
 
-void MCTSAgent::move_root(Node *node)
+void TurnBasedMCTSAgent::move_root(Node *node)
 {
   if (not node->is_root())
   {
@@ -33,7 +33,7 @@ void MCTSAgent::move_root(Node *node)
   }
 }
 
-int MCTSAgent::next_move()
+int TurnBasedMCTSAgent::next_move()
 {
   if (this->retired_moves.empty())
   {
@@ -71,14 +71,14 @@ int MCTSAgent::next_move()
   return move;
 }
 
-bool MCTSAgent::time_is_up()
+bool TurnBasedMCTSAgent::time_is_up()
 {
   timing now = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = now - this->start_time;
   return elapsed.count() >= this->time_limit;
 }
 
-Node *MCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost)
+Node *TurnBasedMCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost)
 {
   Node *curr = this->tree;
   while (curr->fully_expanded())
@@ -121,7 +121,7 @@ Node *MCTSAgent::tree_policy(std::vector<int> &available_moves, float *tree_cost
   return curr;
 }
 
-float MCTSAgent::simulation(Node *node, std::vector<int> &possible_moves)
+float TurnBasedMCTSAgent::simulation(Node *node, std::vector<int> &possible_moves)
 {
   if (possible_moves.empty())
   {
@@ -161,18 +161,18 @@ float MCTSAgent::simulation(Node *node, std::vector<int> &possible_moves)
   return cost;
 }
 
-void MCTSAgent::back_propagate(float score, Node *node)
+void TurnBasedMCTSAgent::back_propagate(float score, Node *node)
 {
   node->N += 1;
   node->Q += score;
   if (not node->is_root())
   {
     this->retired_moves.erase(node->current_location);
-    MCTSAgent::back_propagate(score, node->parent);
+    TurnBasedMCTSAgent::back_propagate(score, node->parent);
   }
 }
 
-float MCTSAgent::score(Node *node)
+float TurnBasedMCTSAgent::score(Node *node)
 {
   float avg = node->Q / node->N;
   float member2 = this->C * sqrt(log(node->parent->N) / node->N);
