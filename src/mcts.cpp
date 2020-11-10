@@ -7,7 +7,6 @@ TurnBasedMCTSAgent::TurnBasedMCTSAgent(TSP *tsp, double time_limit)
   {
     tree->children.push_back(new Node(i, tree));
   }
-  tree->next_to_expand = (int)tree->children.size();
 
   this->tsp = tsp;
   this->time_limit = time_limit;
