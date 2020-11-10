@@ -118,6 +118,7 @@ Node *TurnBasedMCTSAgent::tree_policy(std::vector<int> &available_moves, float *
   }
 
   curr->expand(available_moves, this->tsp->get_closests(curr->current_location));
+  //curr->expand(available_moves);
   return curr;
 }
 
