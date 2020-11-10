@@ -25,7 +25,8 @@ The algorithms available are
 
   0. MCTS (one move at a time)
   1. MCTS (full path)
-  2. Greedy (shortest next)
+  2. MCTS (full path, post processed)
+  3. Greedy (shortest next)
 
 ## Test data
 The data is from http://www.math.uwaterloo.ca/tsp/data/index.html. It is in the following format.

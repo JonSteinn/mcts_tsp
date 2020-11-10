@@ -1,6 +1,7 @@
 #include "tsp.h"
 #include "mcts.h"
 #include "mcts2.h"
+#include "mcts3.h"
 #include "shortest_next.h"
 #include <vector>
 #include <iostream>
@@ -60,6 +61,17 @@ void solve_with_mcts2(TSP &tsp, std::vector<int> &path, double time_limit)
   putchar('\n');
 }
 
+void solve_with_mcts3(TSP &tsp, std::vector<int> &path, double time_limit)
+{
+  PostProcessedMCTSAgent agent(&tsp, time_limit);
+  agent.solve(path);
+  for (auto it = path.begin(); it != path.end(); ++it)
+  {
+    std::cout << *it << " ";
+  }
+  putchar('\n');
+}
+
 void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)
 {
   ShortestNextGreedyAgent agent(&tsp);
@@ -77,13 +89,17 @@ void solve(TSP &tsp, std::vector<int> &path, int algorithm, double time_limit)
     solve_with_mcts2(tsp, path, time_limit);
     break;
   case 2:
+    solve_with_mcts3(tsp, path, time_limit);
+    break;
+  case 3:
     solve_with_shortest_next_greedy(tsp, path);
     break;
   default:
     std::cout << "Unknown algorithm\nPick one of the following:\n";
     std::cout << "0: MCTS [turn based]\n";
     std::cout << "1: MCTS [full path]\n";
-    std::cout << "2: Shortest next greedy\n";
+    std::cout << "2: MCTS [full path, post processed]\n";
+    std::cout << "3: Shortest next greedy\n";
     exit(0);
   }
 }

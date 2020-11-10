@@ -5,6 +5,7 @@ OBJFLAGS = -c
 TARGET = main
 MCTS = mcts
 MCTS2 = mcts2
+MCTS3 = mcts3
 SHORTEST_NEXT = shortest_next
 TSP = tsp
 UTILS = utils
@@ -12,6 +13,7 @@ UTILS = utils
 INCLUDED = \
 	$(MCTS).o \
 	$(MCTS2).o \
+	$(MCTS3).o \
 	$(SHORTEST_NEXT).o \
 	$(TSP).o \
 	$(UTILS).o
@@ -31,6 +33,9 @@ $(MCTS).o: $(MCTS).cpp
 
 $(MCTS2).o: $(MCTS2).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(MCTS2).cpp
+
+$(MCTS3).o: $(MCTS3).cpp
+	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(MCTS3).cpp
 
 $(SHORTEST_NEXT).o: $(SHORTEST_NEXT).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(SHORTEST_NEXT).cpp
