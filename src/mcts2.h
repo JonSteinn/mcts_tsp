@@ -3,12 +3,13 @@
 
 #include <vector>
 #include <chrono>
+#include <unordered_set>
 #include "tsp.h"
 #include "shortest_next.h"
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
-#define MAX_FP_NODES 150000
+#define MAX_FP_NODES 500000
 
 struct FP_Node
 {
@@ -75,16 +76,23 @@ class FullPathMCTSAgent
 {
 private:
   TSP *tsp;
-  double time_limit;
   float greedy_cost;
-  FP_Node node_mem[MAX_FP_NODES];
+
+  timing start_time;
+  double time_limit;
+
+  FP_Node *node_mem;
+  int mem_max;
   int mem_idx;
   FP_Node *tree;
+
   std::vector<int> best_path;
   FP_Node *best_leaf;
-  timing start_time;
+  float best_cost;
 
   double elapsed_time();
+
+  FP_Node *tree_policy(std::unordered_set<int> &visited, float *tree_cost);
 
 public:
   FullPathMCTSAgent(TSP *tsp, double time_limit);
