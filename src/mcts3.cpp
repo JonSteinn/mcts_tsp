@@ -12,8 +12,16 @@ PostProcessedMCTSAgent::~PostProcessedMCTSAgent()
 
 void PostProcessedMCTSAgent::solve(std::vector<int> &path)
 {
-  for (int i = 0; i < this->tsp->get_number_of_data_points(); i++)
-  {
-    path.push_back(i);
-  }
+  this->make_mcts2_solve(path);
+  this->post_process(path);
+}
+
+void PostProcessedMCTSAgent::make_mcts2_solve(std::vector<int> &path)
+{
+  FullPathMCTSAgent agent(this->tsp, time_limit);
+  agent.solve(path);
+}
+
+void PostProcessedMCTSAgent::post_process(std::vector<int> &path)
+{
 }
