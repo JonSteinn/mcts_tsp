@@ -3,7 +3,10 @@
 
 #include <vector>
 #include <chrono>
+#include <algorithm>
+#include <random>
 #include <unordered_set>
+#include <math.h>
 #include "tsp.h"
 #include "shortest_next.h"
 
@@ -54,7 +57,7 @@ struct FP_Node
   {
     for (auto it = possible_moves.begin(); it != possible_moves.end(); it++)
     {
-      if (*mem_idx == MAX_FP_NODES)
+      if (*mem_idx == MAX_FP_NODES) // TODO: replace by param
       {
         std::cout << "Out of memory" << std::endl;
         return false;
@@ -77,6 +80,7 @@ class FullPathMCTSAgent
 private:
   TSP *tsp;
   float greedy_cost;
+  float C;
 
   timing start_time;
   double time_limit;
@@ -92,7 +96,9 @@ private:
 
   double elapsed_time();
 
-  FP_Node *tree_policy(std::unordered_set<int> &visited, float *tree_cost);
+  FP_Node *tree_policy(std::vector<int> &available_moves, float *tree_cost);
+  float simulation(FP_Node *node, std::vector<int> &available_moves);
+  float score(FP_Node *node);
 
 public:
   FullPathMCTSAgent(TSP *tsp, double time_limit);
