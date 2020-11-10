@@ -12,7 +12,7 @@
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
-#define MAX_FP_NODES 500000
+#define MAX_FP_NODES 10000000
 
 struct FP_Node
 {
@@ -53,13 +53,13 @@ struct FP_Node
     return next_to_expand >= (int)children.size();
   }
 
-  bool expand(std::vector<int> &possible_moves, FP_Node *mem_stack, int *mem_idx)
+  bool expand(std::vector<int> &possible_moves, FP_Node *mem_stack, int *mem_idx, int mem_size)
   {
     for (auto it = possible_moves.begin(); it != possible_moves.end(); it++)
     {
-      if (*mem_idx == MAX_FP_NODES) // TODO: replace by param
+      if (*mem_idx == mem_size)
       {
-        std::cout << "Out of memory" << std::endl;
+        std::cout << "Out of memory, Nodes expanded: " << *mem_idx << std::endl;
         return false;
       }
       FP_Node *new_node = &mem_stack[(*mem_idx)++];
@@ -98,6 +98,7 @@ private:
 
   FP_Node *tree_policy(std::vector<int> &available_moves, float *tree_cost);
   float simulation(FP_Node *node, std::vector<int> &available_moves);
+  void back_propagate(float score, FP_Node *node);
   float score(FP_Node *node);
 
 public:

@@ -26,7 +26,7 @@ FullPathMCTSAgent::FullPathMCTSAgent(TSP *tsp, double time_limit)
   {
     path.push_back(i);
   }
-  this->tree->expand(path, this->node_mem, &this->mem_idx);
+  this->tree->expand(path, this->node_mem, &this->mem_idx, this->mem_max);
 
   // Store best
   this->best_leaf = this->tree;
@@ -55,10 +55,26 @@ void FullPathMCTSAgent::solve(std::vector<int> &path)
       break;
     }
     cost += this->simulation(new_node, available_moves);
-    // 3. Back propagate
+
+    if (cost < this->best_cost)
+    {
+      this->best_cost = cost;
+      this->best_leaf = new_node;
+      this->best_path.clear();
+      this->best_path.insert(this->best_path.begin(), available_moves.begin(), available_moves.end());
+    }
+
+    back_propagate(cost / this->greedy_cost, new_node);
   }
 
-  path.insert(path.begin(), this->best_path.begin(), this->best_path.end());
+  FP_Node *curr = this->best_leaf;
+  while (curr != nullptr)
+  {
+    path.push_back(curr->current_location);
+    curr = curr->parent;
+  }
+  std::reverse(path.begin(), path.end());
+  path.insert(path.end(), this->best_path.begin(), this->best_path.end());
 }
 
 double FullPathMCTSAgent::elapsed_time()
@@ -107,7 +123,7 @@ FP_Node *FullPathMCTSAgent::tree_policy(std::vector<int> &available_moves, float
       available_moves.push_back(i);
     }
   }
-  if (!curr->expand(available_moves, this->node_mem, &this->mem_idx))
+  if (!curr->expand(available_moves, this->node_mem, &this->mem_idx, this->mem_max))
   {
     return nullptr;
   }
@@ -138,4 +154,14 @@ float FullPathMCTSAgent::score(FP_Node *node)
   float avg = node->Q / node->N;
   float member2 = this->C * sqrt(log(node->parent->N) / node->N);
   return avg - member2;
+}
+
+void FullPathMCTSAgent::back_propagate(float score, FP_Node *node)
+{
+  while (node != nullptr)
+  {
+    node->N += 1;
+    node->Q += score;
+    node = node->parent;
+  }
 }
