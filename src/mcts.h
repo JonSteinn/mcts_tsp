@@ -43,12 +43,15 @@ struct Node
     }
   }
 
-  void expand(std::vector<int> &possible_moves)
+  void expand(std::vector<int> &possible_moves, std::vector<int> &order)
   {
-    for (auto it = possible_moves.begin(); it != possible_moves.end(); it++)
+    for (auto it = order.begin(); it != order.end(); it++)
     {
-      Node *child = new Node(*it, this);
-      children.push_back(child);
+      if (std::find(possible_moves.begin(), possible_moves.end(), *it) != possible_moves.end())
+      {
+        Node *child = new Node(*it, this);
+        children.push_back(child);
+      }
     }
   }
 

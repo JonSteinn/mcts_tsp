@@ -63,7 +63,7 @@ int TSP::get_number_of_data_points(void)
   return this->matrix.size();
 }
 
-std::vector<int> TSP::get_closests(int a)
+std::vector<int> &TSP::get_closests(int a)
 {
   return this->closests[a];
 }
