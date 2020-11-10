@@ -2,11 +2,13 @@
 #define MCTC2_H
 
 #include <vector>
-
+#include <chrono>
 #include "tsp.h"
 #include "shortest_next.h"
 
-#define MAX_FP_NODES 1000000
+typedef std::chrono::_V2::system_clock::time_point timing;
+
+#define MAX_FP_NODES 150000
 
 struct FP_Node
 {
@@ -47,12 +49,13 @@ struct FP_Node
     return next_to_expand >= (int)children.size();
   }
 
-  bool expand(std::vector<int> &possible_moves, FP_Node *mem_stack, int *mem_idx, int max_mem)
+  bool expand(std::vector<int> &possible_moves, FP_Node *mem_stack, int *mem_idx)
   {
     for (auto it = possible_moves.begin(); it != possible_moves.end(); it++)
     {
-      if (*mem_idx == max_mem)
+      if (*mem_idx == MAX_FP_NODES)
       {
+        std::cout << "Out of memory" << std::endl;
         return false;
       }
       FP_Node *new_node = &mem_stack[(*mem_idx)++];
@@ -74,10 +77,14 @@ private:
   TSP *tsp;
   double time_limit;
   float greedy_cost;
-  FP_Node *node_mem;
+  FP_Node node_mem[MAX_FP_NODES];
   int mem_idx;
-  int max_mem;
   FP_Node *tree;
+  std::vector<int> best_path;
+  FP_Node *best_leaf;
+  timing start_time;
+
+  double elapsed_time();
 
 public:
   FullPathMCTSAgent(TSP *tsp, double time_limit);
