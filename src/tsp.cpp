@@ -1,4 +1,5 @@
 #include "tsp.h"
+#include "utils.h"
 
 TSP::TSP(std::string file_name)
 {
@@ -28,6 +29,7 @@ TSP::TSP(std::string file_name)
   for (int i = 0; i < data_points; i++)
   {
     this->matrix.push_back(std::vector<float>(data_points, 0.0f));
+    this->closests.push_back(std::vector<int>());
   }
 
   for (int i = 0; i < data_points; i++)
@@ -38,6 +40,10 @@ TSP::TSP(std::string file_name)
       float dy = std::get<1>(data[i]) - std::get<1>(data[j]);
       this->matrix[i][j] = sqrtf(dx * dx + dy * dy);
       this->matrix[j][i] = this->matrix[i][j];
+    }
+    for (auto j : sort_indexes_float(this->matrix[i]))
+    {
+      this->closests[i].push_back(j);
     }
   }
 }
@@ -55,6 +61,11 @@ float TSP::get_distance_between(int a, int b)
 int TSP::get_number_of_data_points(void)
 {
   return this->matrix.size();
+}
+
+std::vector<int> TSP::get_closests(int a)
+{
+  return this->closests[a];
 }
 
 int TSP::shortest_distance_from(int src, std::unordered_set<int> &not_included)
