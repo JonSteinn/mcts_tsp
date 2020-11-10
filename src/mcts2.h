@@ -12,7 +12,7 @@
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
-#define MAX_FP_NODES 10000000
+#define MAX_FP_NODES 40000000
 
 struct FP_Node
 {

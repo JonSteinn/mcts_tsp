@@ -28,6 +28,8 @@ FullPathMCTSAgent::FullPathMCTSAgent(TSP *tsp, double time_limit)
   }
   this->tree->expand(path, this->node_mem, &this->mem_idx, this->mem_max);
 
+  std::cout << sizeof(FP_Node) << std::endl;
+
   // Store best
   this->best_leaf = this->tree;
   this->best_cost = std::numeric_limits<float>::max();
@@ -44,7 +46,6 @@ FullPathMCTSAgent::~FullPathMCTSAgent()
 void FullPathMCTSAgent::solve(std::vector<int> &path)
 {
   std::vector<int> available_moves;
-  std::cout << sizeof(FP_Node) << std::endl;
 
   while (this->elapsed_time() < time_limit)
   {
@@ -123,6 +124,7 @@ FP_Node *FullPathMCTSAgent::tree_policy(std::vector<int> &available_moves, float
       available_moves.push_back(i);
     }
   }
+
   if (!curr->expand(available_moves, this->node_mem, &this->mem_idx, this->mem_max))
   {
     return nullptr;
