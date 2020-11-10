@@ -18,10 +18,22 @@ void PostProcessedMCTSAgent::solve(std::vector<int> &path)
 
 void PostProcessedMCTSAgent::make_mcts2_solve(std::vector<int> &path)
 {
-  FullPathMCTSAgent agent(this->tsp, time_limit);
+  FullPathMCTSAgent agent(this->tsp, time_limit * AGENT_TIME_PORPORTION);
   agent.solve(path);
+}
+
+double PostProcessedMCTSAgent::elapsed_time()
+{
+  timing now = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = now - this->start_time;
+  return elapsed.count();
 }
 
 void PostProcessedMCTSAgent::post_process(std::vector<int> &path)
 {
+  while (this->elapsed_time() < time_limit)
+  {
+    if (!opt2(path))
+      break;
+  }
 }
