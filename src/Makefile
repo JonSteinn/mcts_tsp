@@ -7,12 +7,14 @@ MCTS = mcts
 MCTS2 = mcts2
 SHORTEST_NEXT = shortest_next
 TSP = tsp
+UTILS = utils
 
 INCLUDED = \
 	$(MCTS).o \
 	$(MCTS2).o \
 	$(SHORTEST_NEXT).o \
-	$(TSP).o
+	$(TSP).o \
+	$(UTILS).o
 
 .DEFAULT: all
 .PHONY: all
@@ -35,6 +37,9 @@ $(SHORTEST_NEXT).o: $(SHORTEST_NEXT).cpp
 
 $(TSP).o: $(TSP).cpp
 	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(TSP).cpp
+
+$(UTILS).o: $(UTILS).cpp
+	$(CXX) $(CXX_FLAGS) $(OBJFLAGS) $(UTILS).cpp
 
 clean:
 	rm -f *.o
