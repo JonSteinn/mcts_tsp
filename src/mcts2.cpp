@@ -144,7 +144,7 @@ float FullPathMCTSAgent::simulation(FP_Node *node, std::vector<int> &available_m
   }
 
   std::uniform_real_distribution<> dis(0, 1);
-  if (dis(m_mt) < 0.5)
+  if (dis(m_mt) < RANDOM_SIM_PROB)
   {
     unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
     std::shuffle(available_moves.begin(), available_moves.end(), std::default_random_engine(num));

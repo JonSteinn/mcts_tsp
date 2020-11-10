@@ -12,6 +12,7 @@
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
+#define RANDOM_SIM_PROB 0.5f
 #define MAX_FP_NODES 40000000
 
 struct FP_Node
