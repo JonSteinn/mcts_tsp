@@ -4,6 +4,13 @@ FullPathMCTSAgent::FullPathMCTSAgent(TSP *tsp, double time_limit)
 {
   this->tsp = tsp;
   this->time_limit = time_limit;
+
+  ShortestNextGreedyAgent greedy(tsp);
+  std::vector<int> path;
+  greedy.solve(path);
+  this->greedy_cost = tsp->calculate_cost_of_path(path);
+
+  // Construct tree
 }
 
 FullPathMCTSAgent::~FullPathMCTSAgent()
@@ -16,4 +23,5 @@ void FullPathMCTSAgent::solve(std::vector<int> &path)
   {
     path.push_back(i);
   }
+  return;
 }
