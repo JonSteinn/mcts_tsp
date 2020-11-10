@@ -23,6 +23,8 @@ fi
 
 shift
 
+make -C src clean
+make -C src distclean
 make -C src
 
 args="-f $f $@"
