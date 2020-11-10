@@ -17,6 +17,7 @@ struct Node
 {
   int current_location;
   float Q;
+  float Q_square;
   int N;
   struct Node *parent;
   std::vector<struct Node *> children;
@@ -26,6 +27,7 @@ struct Node
   {
     current_location = current;
     Q = 0;
+    Q_square = 0;
     N = 0;
     next_to_expand = 0;
     parent = p;
@@ -81,7 +83,8 @@ struct Node
 class TurnBasedMCTSAgent
 {
 private:
-  const float C = 1.41421356;
+  const int C = 0.5;
+  const int D = 10000;
   struct Node *tree;
   TSP *tsp;
   timing start_time;

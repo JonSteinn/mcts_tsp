@@ -165,6 +165,7 @@ void TurnBasedMCTSAgent::back_propagate(float score, Node *node)
 {
   node->N += 1;
   node->Q += score;
+  node->Q_square += score * score;
   if (not node->is_root())
   {
     this->retired_moves.erase(node->current_location);
@@ -176,5 +177,6 @@ float TurnBasedMCTSAgent::score(Node *node)
 {
   float avg = node->Q / node->N;
   float member2 = this->C * sqrt(log(node->parent->N) / node->N);
-  return avg - member2;
+  float member3 = sqrt((node->Q_square + avg * node->N + this->D) / node->N);
+  return avg - member2 - member3;
 }
