@@ -45,6 +45,7 @@ void FullPathMCTSAgent::solve(std::vector<int> &path)
 {
   std::vector<int> available_moves;
   std::cout << sizeof(FP_Node) << std::endl;
+
   while (this->elapsed_time() < time_limit)
   {
     available_moves.clear();
@@ -55,7 +56,6 @@ void FullPathMCTSAgent::solve(std::vector<int> &path)
       break;
     }
     cost += this->simulation(new_node, available_moves);
-
     if (cost < this->best_cost)
     {
       this->best_cost = cost;
@@ -111,7 +111,7 @@ FP_Node *FullPathMCTSAgent::tree_policy(std::vector<int> &available_moves, float
     visited.insert(next->current_location);
   }
 
-  curr = curr->get_next();
+  curr = curr->get_next(this->tsp);
   *tree_cost += this->tsp->get_distance_between(curr->parent->current_location, curr->current_location);
   visited.insert(curr->current_location);
 

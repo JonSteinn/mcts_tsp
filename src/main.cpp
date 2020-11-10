@@ -53,6 +53,11 @@ void solve_with_mcts2(TSP &tsp, std::vector<int> &path, double time_limit)
 {
   FullPathMCTSAgent agent(&tsp, time_limit);
   agent.solve(path);
+  for (auto it = path.begin(); it != path.end(); ++it)
+  {
+    std::cout << *it << " ";
+  }
+  putchar('\n');
 }
 
 void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)

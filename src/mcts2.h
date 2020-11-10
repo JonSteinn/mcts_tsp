@@ -43,8 +43,25 @@ struct FP_Node
     return children.empty();
   }
 
-  struct FP_Node *get_next()
+  struct FP_Node *get_next(TSP *tsp)
   {
+    if (this->next_to_expand != ((int)this->children.size()) - 1)
+    {
+      float best_cost = std::numeric_limits<float>::max();
+      int best_node = -1, n = (int)this->children.size();
+      for (int i = next_to_expand; i < n; i++)
+      {
+        float dist = tsp->get_distance_between(this->current_location, this->children[i]->current_location);
+        if (dist < best_cost)
+        {
+          best_cost = dist;
+          best_node = i;
+        }
+      }
+      FP_Node *tmp = children[next_to_expand];
+      children[next_to_expand] = children[best_node];
+      children[best_node] = tmp;
+    }
     return children[next_to_expand++];
   }
 
