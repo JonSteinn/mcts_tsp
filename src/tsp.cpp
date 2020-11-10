@@ -13,6 +13,7 @@ TSP::TSP(std::string file_name)
     this->optimal_length = std::stof(line);
     std::getline(tsp_file, line);
     data_points = std::stoi(line);
+    std::cout << "Number of data points in file: " << data_points << std::endl;
     for (int i = 0; i < data_points; i++)
     {
       std::getline(tsp_file, line);

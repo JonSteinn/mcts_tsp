@@ -23,8 +23,9 @@ Below is an example.
 ```
 The algorithms available are
 
-  0. MCTS
-  1. Greedy (shortest next)
+  0. MCTS (one move at a time)
+  1. MCTS (full path)
+  2. Greedy (shortest next)
 
 ## Test data
 The data is from http://www.math.uwaterloo.ca/tsp/data/index.html. It is in the following format.
