@@ -52,6 +52,18 @@ struct Node
     }
   }
 
+  void expand(std::vector<int> &possible_moves, std::vector<int> &order)
+  {
+    for (auto it = order.begin(); it != order.end(); it++)
+    {
+      if (std::find(possible_moves.begin(), possible_moves.end(), *it) != possible_moves.end())
+      {
+        Node *child = new Node(*it, this);
+        children.push_back(child);
+      }
+    }
+  }
+
   bool is_root()
   {
     return parent == NULL;
