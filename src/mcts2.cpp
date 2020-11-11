@@ -146,43 +146,43 @@ float FullPathMCTSAgent::simulation(FP_Node *node, std::vector<int> &available_m
     return tsp->get_distance_between(node->current_location, 0);
   }
 
-  std::uniform_real_distribution<> dis(0, 1);
-  if (dis(m_mt) < RANDOM_SIM_PROB)
+  if (node->N == 0)
   {
-    unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(available_moves.begin(), available_moves.end(), std::default_random_engine(num));
-    float cost = this->tsp->get_distance_between(node->current_location, available_moves[0]);
-    cost += this->tsp->get_distance_between(available_moves.back(), 0);
-    for (unsigned int i = 1; i < available_moves.size(); i++)
+    float cost = 0.0f;
+    int last = node->current_location;
+    std::unordered_set<int> visited(available_moves.begin(), available_moves.end());
+    int index = 0;
+    while (!visited.empty())
     {
-      cost += tsp->get_distance_between(available_moves[i - 1], available_moves[i]);
+      int best_node = -1;
+      float best = std::numeric_limits<float>::max();
+      for (auto it = visited.begin(); it != visited.end(); ++it)
+      {
+        float dist = tsp->get_distance_between(last, *it);
+        if (dist < best)
+        {
+          best = dist;
+          best_node = *it;
+        }
+      }
+      cost += best;
+      last = best_node;
+      available_moves[index++] = last;
+      visited.erase(last);
     }
-    return cost;
+    return cost + tsp->get_distance_between(last, 0);
   }
 
-  float cost = 0.0f;
-  int last = node->current_location;
-  std::unordered_set<int> visited(available_moves.begin(), available_moves.end());
-  int index = 0;
-  while (!visited.empty())
+  std::uniform_real_distribution<> dis(0, 1);
+  unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(available_moves.begin(), available_moves.end(), std::default_random_engine(num));
+  float cost = this->tsp->get_distance_between(node->current_location, available_moves[0]);
+  cost += this->tsp->get_distance_between(available_moves.back(), 0);
+  for (unsigned int i = 1; i < available_moves.size(); i++)
   {
-    int best_node = -1;
-    float best = std::numeric_limits<float>::max();
-    for (auto it = visited.begin(); it != visited.end(); ++it)
-    {
-      float dist = tsp->get_distance_between(last, *it);
-      if (dist < best)
-      {
-        best = dist;
-        best_node = *it;
-      }
-    }
-    cost += best;
-    last = best_node;
-    available_moves[index++] = last;
-    visited.erase(last);
+    cost += tsp->get_distance_between(available_moves[i - 1], available_moves[i]);
   }
-  return cost + tsp->get_distance_between(last, 0);
+  return cost;
 }
 
 float FullPathMCTSAgent::score(FP_Node *node)
