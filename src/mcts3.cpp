@@ -1,4 +1,5 @@
 #include "mcts3.h"
+#include "utils.h"
 
 PostProcessedMCTSAgent::PostProcessedMCTSAgent(TSP *tsp, double time_limit)
 {
@@ -33,7 +34,7 @@ void PostProcessedMCTSAgent::post_process(std::vector<int> &path)
 {
   while (this->elapsed_time() < time_limit)
   {
-    if (!opt2(path))
+    if (!opt2(path, this->tsp))
       break;
   }
 }

@@ -9,12 +9,37 @@ std::vector<int> sort_indexes_float(const std::vector<float> &v)
   return idx;
 }
 
-bool opt2(std::vector<int> &path)
+void reverse_opt2(std::vector<int> &path, int i, int j)
 {
-  for (auto it = path.begin(); it != path.end(); ++it)
+  while (i < j)
   {
-    // TODO: REMOVE ME
-    std::cout << *it << std::endl;
+    int tmp = path[j];
+    path[j--] = path[i];
+    path[i++] = tmp;
   }
-  return false;
+}
+
+bool opt2(std::vector<int> &path, TSP *tsp)
+{
+  auto test = [](int xj, int xim1, int xi, int xip1) {
+    return (xj != xim1) and (xj != xi) and (xj != xip1);
+  };
+  auto test_distance = [](int xi, int xip1, int xj, int xjp1, TSP *tsp) {
+    return tsp->get_distance_between(xi, xip1) + tsp->get_distance_between(xj, xjp1) > tsp->get_distance_between(xi, xj) + tsp->get_distance_between(xip1, xjp1);
+  };
+  bool improved = false;
+  int s = path.size();
+  for (int i = 0; i < s; i++)
+  {
+    for (int j = 0; j < s; j++)
+    {
+      if (test(path[j], path[(i - 1) % s], path[i], path[(i + 1) % s]) and
+          test_distance(path[i], path[(i + 1) % s], path[j], path[(j + 1) % s], tsp))
+      {
+        improved = true;
+        reverse_opt2(path, i + 1, j);
+      }
+    }
+  }
+  return improved;
 }
