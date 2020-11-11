@@ -12,12 +12,12 @@
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
-#define RANDOM_SIM_PROB 0.85f
+#define RANDOM_SIM_PROB 0.9f
 #define MAX_FP_NODES 40000000
 
 struct FP_Node
 {
-  float Q, Q2;
+  float best_Q, Q, Q2;
   int N;
   struct FP_Node *parent;
   std::vector<struct FP_Node *> children;
@@ -26,6 +26,7 @@ struct FP_Node
 
   FP_Node()
   {
+    this->best_Q = std::numeric_limits<float>::max();
     this->Q = 0.0f;
     this->Q2 = 0.0f;
     this->N = 0;
@@ -104,6 +105,8 @@ private:
   float C;
   float D;
   std::mt19937 m_mt;
+
+  int expansion_counter;
 
   timing start_time;
   double time_limit;

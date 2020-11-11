@@ -10,28 +10,27 @@ FullPathMCTSAgent::FullPathMCTSAgent(TSP *tsp, double time_limit) : m_mt((std::r
 
   // Calculate greedy for scaling
   ShortestNextGreedyAgent greedy(tsp);
-  std::vector<int> path;
-  greedy.solve(path);
-  this->greedy_cost = tsp->calculate_cost_of_path(path);
+  greedy.solve(this->best_path);
+  this->greedy_cost = tsp->calculate_cost_of_path(this->best_path);
+  this->best_cost = this->greedy_cost;
 
   // Pre-allocate all mempory
   this->mem_max = MAX_FP_NODES;
   this->mem_idx = 0;
   this->node_mem = new FP_Node[this->mem_max];
 
+  // Stats
+  this->expansion_counter = 1;
+
   // Construct tree
   this->tree = &this->node_mem[this->mem_idx++];
   this->tree->set_parent_and_location(nullptr, 0);
-  path.clear();
+  std::vector<int> path;
   for (int i = 1; i < tsp->get_number_of_data_points(); i++)
   {
     path.push_back(i);
   }
   this->tree->expand(path, this->node_mem, &this->mem_idx, this->mem_max);
-
-  // Store best
-  this->best_leaf = this->tree;
-  this->best_cost = std::numeric_limits<float>::max();
 
   // Start timer
   this->start_time = std::chrono::high_resolution_clock::now();
@@ -80,6 +79,8 @@ void FullPathMCTSAgent::solve(std::vector<int> &path)
   }
   std::reverse(path.begin(), path.end());
   path.insert(path.end(), this->best_path.begin(), this->best_path.end());
+
+  std::cout << "Expansions: " << this->expansion_counter << std::endl;
 }
 
 double FullPathMCTSAgent::elapsed_time()
@@ -133,6 +134,7 @@ FP_Node *FullPathMCTSAgent::tree_policy(std::vector<int> &available_moves, float
   {
     return nullptr;
   }
+  this->expansion_counter++;
 
   return curr;
 }
@@ -188,16 +190,18 @@ float FullPathMCTSAgent::score(FP_Node *node)
   float avg = node->Q / node->N;
   float var = node->Q2 / node->N - avg * avg;
 
-  float member2 = this->C * sqrt(log(node->parent->N) / node->N);
-  float member3 = sqrt(var + this->D / node->N);
+  float m1 = this->C * sqrt(log(node->parent->N) / node->N);
+  float m2 = sqrt(var + this->D / node->N);
+  float m3 = node->best_Q;
 
-  return avg - member2 - member3;
+  return m3 + avg - m1 - m2;
 }
 
 void FullPathMCTSAgent::back_propagate(float score, FP_Node *node)
 {
   while (node != nullptr)
   {
+    node->best_Q = std::min(node->best_Q, score);
     node->N += 1;
     node->Q += score;
     node->Q2 += score * score;
