@@ -6,6 +6,7 @@ FullPathMCTSAgent::FullPathMCTSAgent(TSP *tsp, double time_limit) : m_mt((std::r
   this->tsp = tsp;
   this->time_limit = time_limit;
   this->C = 1.41f;
+  this->D = 10000.0f;
 
   // Calculate greedy for scaling
   ShortestNextGreedyAgent greedy(tsp);
@@ -185,8 +186,12 @@ float FullPathMCTSAgent::simulation(FP_Node *node, std::vector<int> &available_m
 float FullPathMCTSAgent::score(FP_Node *node)
 {
   float avg = node->Q / node->N;
+  float var = node->Q2 / node->N - avg * avg;
+
   float member2 = this->C * sqrt(log(node->parent->N) / node->N);
-  return avg - member2;
+  float member3 = sqrt(var + this->D / node->N);
+
+  return avg - member2 - member3;
 }
 
 void FullPathMCTSAgent::back_propagate(float score, FP_Node *node)
@@ -195,6 +200,7 @@ void FullPathMCTSAgent::back_propagate(float score, FP_Node *node)
   {
     node->N += 1;
     node->Q += score;
+    node->Q2 += score * score;
     node = node->parent;
   }
 }

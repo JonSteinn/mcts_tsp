@@ -12,12 +12,12 @@
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 
-#define RANDOM_SIM_PROB 0.5f
+#define RANDOM_SIM_PROB 0.85f
 #define MAX_FP_NODES 40000000
 
 struct FP_Node
 {
-  float Q;
+  float Q, Q2;
   int N;
   struct FP_Node *parent;
   std::vector<struct FP_Node *> children;
@@ -27,6 +27,7 @@ struct FP_Node
   FP_Node()
   {
     this->Q = 0.0f;
+    this->Q2 = 0.0f;
     this->N = 0;
     this->current_location = 0;
     this->parent = nullptr;
@@ -101,6 +102,7 @@ private:
   TSP *tsp;
   float greedy_cost;
   float C;
+  float D;
   std::mt19937 m_mt;
 
   timing start_time;
