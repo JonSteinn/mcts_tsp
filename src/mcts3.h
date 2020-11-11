@@ -4,7 +4,7 @@
 #include <vector>
 #include <chrono>
 
-#define AGENT_TIME_PORPORTION 0.85
+#define AGENT_TIME_PORPORTION 0.5
 
 typedef std::chrono::_V2::system_clock::time_point timing;
 

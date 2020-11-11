@@ -42,38 +42,31 @@ bool parse_args(int argc, char **argv, CommandLineArguments *cmd_args)
 
 void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit)
 {
+  std::cout << "MCTS1" << std::endl;
   TurnBasedMCTSAgent agent(&tsp, time_limit / tsp.get_number_of_data_points());
   while ((int)path.size() < tsp.get_number_of_data_points())
   {
     path.push_back(agent.next_move());
-    std::cout << path.back() << std::endl;
   }
 }
 
 void solve_with_mcts2(TSP &tsp, std::vector<int> &path, double time_limit)
 {
+  std::cout << "MCTS2" << std::endl;
   FullPathMCTSAgent agent(&tsp, time_limit);
   agent.solve(path);
-  for (auto it = path.begin(); it != path.end(); ++it)
-  {
-    std::cout << *it << " ";
-  }
-  putchar('\n');
 }
 
 void solve_with_mcts3(TSP &tsp, std::vector<int> &path, double time_limit)
 {
+  std::cout << "MCTS3" << std::endl;
   PostProcessedMCTSAgent agent(&tsp, time_limit);
   agent.solve(path);
-  for (auto it = path.begin(); it != path.end(); ++it)
-  {
-    std::cout << *it << " ";
-  }
-  putchar('\n');
 }
 
 void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)
 {
+  std::cout << "Greedy" << std::endl;
   ShortestNextGreedyAgent agent(&tsp);
   agent.solve(path);
 }
@@ -113,6 +106,12 @@ int main(int argc, char **argv)
     std::vector<int> path;
     solve(tsp, path, cmd_args.algorithm, cmd_args.time_limit);
     float cost = tsp.calculate_cost_of_path(path);
+    std::cout << "Path:";
+    for (auto it = path.begin(); it != path.end(); ++it)
+    {
+      std::cout << " " << *it;
+    }
+    putchar('\n');
     std::cout << "Cost: " << cost << "\n";
     std::cout << "Optimal cost: " << tsp.get_optimal_length() << "\n";
     std::cout << "Ratio cost/optimal: " << cost / tsp.get_optimal_length() << "\n";
