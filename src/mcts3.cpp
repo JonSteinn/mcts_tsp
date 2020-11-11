@@ -5,6 +5,7 @@ PostProcessedMCTSAgent::PostProcessedMCTSAgent(TSP *tsp, double time_limit)
 {
   this->tsp = tsp;
   this->time_limit = time_limit;
+  this->start_time = std::chrono::high_resolution_clock::now();
 }
 
 PostProcessedMCTSAgent::~PostProcessedMCTSAgent()
