@@ -5,9 +5,11 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include "tsp.h"
 
 std::vector<int> sort_indexes_float(const std::vector<float> &v);
 
-bool opt2(std::vector<int> &path);
+void reverse_opt2(std::vector<int> &path, int i, int j);
+bool opt2(std::vector<int> &path, TSP *tsp);
 
 #endif
