@@ -1,12 +1,16 @@
+#include <vector>
+#include <iostream>
+#include <getopt.h>
+
 #include "tsp.h"
 #include "mcts.h"
 #include "mcts2.h"
 #include "mcts3.h"
 #include "shortest_next.h"
-#include <vector>
-#include <iostream>
-#include <getopt.h>
 
+/**
+ * Parsed data.
+ */
 typedef struct
 {
   const char *data;
@@ -14,6 +18,9 @@ typedef struct
   double time_limit;
 } CommandLineArguments;
 
+/**
+ * Parse arguments. Returns true if succesful, false otherwise.
+ */
 bool parse_args(int argc, char **argv, CommandLineArguments *cmd_args)
 {
   cmd_args->algorithm = 0;
@@ -40,6 +47,10 @@ bool parse_args(int argc, char **argv, CommandLineArguments *cmd_args)
   return cmd_args->data != nullptr;
 }
 
+/**
+ * Turn based MCTS. This plays this as a game and returns next move
+ * each time.
+ */
 void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit)
 {
   std::cout << "MCTS1" << std::endl;
@@ -50,6 +61,9 @@ void solve_with_mcts(TSP &tsp, std::vector<int> &path, double time_limit)
   }
 }
 
+/**
+ * This one finds a single solution, all in one call.
+ */
 void solve_with_mcts2(TSP &tsp, std::vector<int> &path, double time_limit)
 {
   std::cout << "MCTS2" << std::endl;
@@ -57,6 +71,9 @@ void solve_with_mcts2(TSP &tsp, std::vector<int> &path, double time_limit)
   agent.solve(path);
 }
 
+/**
+ * This one uses mcts2 internally but adds some post processing.
+ */
 void solve_with_mcts3(TSP &tsp, std::vector<int> &path, double time_limit)
 {
   std::cout << "MCTS3" << std::endl;
@@ -64,6 +81,9 @@ void solve_with_mcts3(TSP &tsp, std::vector<int> &path, double time_limit)
   agent.solve(path);
 }
 
+/**
+ * Find a greedy solution - nearest neighbor.
+ */
 void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)
 {
   std::cout << "Greedy" << std::endl;
@@ -71,6 +91,9 @@ void solve_with_shortest_next_greedy(TSP &tsp, std::vector<int> &path)
   agent.solve(path);
 }
 
+/**
+ * Pick the correct agent. They will update the path variable with their solution.
+ */
 void solve(TSP &tsp, std::vector<int> &path, int algorithm, double time_limit)
 {
   switch (algorithm)
@@ -97,6 +120,28 @@ void solve(TSP &tsp, std::vector<int> &path, int algorithm, double time_limit)
   }
 }
 
+/**
+ * Display result of solution given by agent.
+ */
+void display_results(TSP &tsp, std::vector<int> &path, float cost)
+{
+  std::cout << "Path:";
+  for (auto it = path.begin(); it != path.end(); ++it)
+  {
+    std::cout << " " << *it;
+  }
+  putchar('\n');
+  std::cout << "Cost: " << cost << "\n";
+  std::cout << "Optimal cost: " << tsp.get_optimal_length() << "\n";
+  std::cout << "Ratio cost/optimal: " << cost / tsp.get_optimal_length() << "\n";
+}
+
+/**
+ * Starting point. Available arguments:
+ *  -a <agents>
+ *  -f <file with tsp data>
+ *  -t <time limit>
+ */
 int main(int argc, char **argv)
 {
   CommandLineArguments cmd_args;
@@ -106,15 +151,7 @@ int main(int argc, char **argv)
     std::vector<int> path;
     solve(tsp, path, cmd_args.algorithm, cmd_args.time_limit);
     float cost = tsp.calculate_cost_of_path(path);
-    std::cout << "Path:";
-    for (auto it = path.begin(); it != path.end(); ++it)
-    {
-      std::cout << " " << *it;
-    }
-    putchar('\n');
-    std::cout << "Cost: " << cost << "\n";
-    std::cout << "Optimal cost: " << tsp.get_optimal_length() << "\n";
-    std::cout << "Ratio cost/optimal: " << cost / tsp.get_optimal_length() << "\n";
+    display_results(tsp, path, cost);
   }
   return 0;
 }

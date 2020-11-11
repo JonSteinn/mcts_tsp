@@ -14,18 +14,18 @@ make -C src
 
 ## Run and arguments
 There are 3 arguments available,
-  * `-a <value>` for algorithm
+  * `-a <value>` for agent
   * `-f <value>` for file
   * `-t <value>` for time
 Below is an example.
 ```sh
 ./src/main.exe -a 0 -t 5 -f data/tour001.txt
 ```
-The algorithms available are
+The agents available are
 
-  0. MCTS (one move at a time)
-  1. MCTS (full path)
-  2. MCTS (full path, post processed)
+  0. MCTS1 (one move at a time)
+  1. MCTS2 (full path)
+  2. MCTS3 (full path, post processed)
   3. Greedy (shortest next)
 
 ## Test data
