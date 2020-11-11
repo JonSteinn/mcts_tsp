@@ -33,9 +33,15 @@ double PostProcessedMCTSAgent::elapsed_time()
 
 void PostProcessedMCTSAgent::post_process(std::vector<int> &path)
 {
+  int i = 0;
   while (this->elapsed_time() < time_limit)
   {
-    if (!opt2(path, this->tsp))
+    if (i++ % 3)
+    {
+      if (!opt3(path, this->tsp))
+        break;
+    }
+    else if (!opt2(path, this->tsp))
       break;
   }
 }
