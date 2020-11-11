@@ -1,5 +1,4 @@
 {
-  "editor.formatOnSave": true,
   "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": true,
   "files.associations": {
     "array": "cpp",
@@ -73,13 +72,38 @@
     "typeindex": "cpp",
     "valarray": "cpp"
   },
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false,
+  "python.testing.pytestEnabled": false,
+  "python.linting.mypyEnabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "python.linting.lintOnSave": true,
+  "[python]": {
+    "editor.rulers": [
+      88
+    ],
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "python.formatting.provider": "black",
+  "editor.formatOnSave": true,
   "files.exclude": {
+    "**/*.o": true,
+    "**/*.exe": true,
+    ".github/": true,
+    ".vscode/": false,
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "**/*.o": true,
-    "**/*.exe": true,
-  }
+    ".pytest_cache/": true,
+    ".venv/": true,
+    ".mypy_cache": true,
+    "**.egg-info": true,
+    "**/__pycache__": true,
+  },
 }
