@@ -5,7 +5,7 @@ FullPathMCTSAgent::FullPathMCTSAgent(TSP *tsp, double time_limit) : m_mt((std::r
   // Store environment
   this->tsp = tsp;
   this->time_limit = time_limit;
-  this->C = 1.41f;
+  this->C = 0.41f;
   this->D = 10000.0f;
 
   // Calculate greedy for scaling
