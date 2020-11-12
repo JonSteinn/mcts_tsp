@@ -4,7 +4,7 @@
     {
       "type": "shell",
       "label": "make",
-      "command": "make -C src",
+      "command": "make -C src DEBUG=1",
       "args": [],
       "options": {
         "cwd": "${workspaceFolder}"

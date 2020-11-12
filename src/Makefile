@@ -1,5 +1,18 @@
+ifeq ($(DEBUG), 1)
+	MODE = -g -O0 -DDEBUG
+else
+	MODE = -O3 -DNDEBUG
+endif
+
 CXX = g++
-CXX_FLAGS = -g -Wall -Wextra -Werror -std=c++17
+CXX_FLAGS = \
+	-std=c++17 \
+	$(MODE) \
+	-Wall \
+	-Wextra \
+	-Wfatal-errors \
+	-Wformat=2 \
+	-Werror
 OBJFLAGS = -c
 
 TARGET = main
