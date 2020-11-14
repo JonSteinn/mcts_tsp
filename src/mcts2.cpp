@@ -164,58 +164,81 @@ float FullPathMCTSAgent::simulation(FP_Node *node, std::vector<int> &available_m
     return tsp->get_distance_between(node->current_location, 0);
   }
 
-  // At a given probability, we choose to simulate randomly
-  std::uniform_real_distribution<> dis(0, 1);
-  if (dis(m_mt) < RANDOM_SIM_PROB)
+  float nested_best = std::numeric_limits<float>::max();
+  std::vector<int> original_order(available_moves.begin(), available_moves.end());
+  for (unsigned int i = 0; i < original_order.size(); i++)
   {
-    // Shuffle moves
-    unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
-    std::shuffle(available_moves.begin(), available_moves.end(), std::default_random_engine(num));
+    std::vector<int> available_moves_cpy(original_order.begin(), original_order.end());
+    int tmp = available_moves_cpy[0];
+    available_moves_cpy[0] = available_moves_cpy[i];
+    available_moves_cpy[i] = tmp;
 
-    // Gather cost
-    float cost = this->tsp->get_distance_between(node->current_location, available_moves[0]);
-    cost += this->tsp->get_distance_between(available_moves.back(), 0);
-    for (unsigned int i = 1; i < available_moves.size(); i++)
+    // At a given probability, we choose to simulate randomly
+    std::uniform_real_distribution<> dis(0, 1);
+    if (dis(m_mt) < RANDOM_SIM_PROB)
     {
-      cost += tsp->get_distance_between(available_moves[i - 1], available_moves[i]);
-    }
-    return cost;
-  }
+      // Shuffle moves
+      unsigned num = std::chrono::system_clock::now().time_since_epoch().count();
+      std::shuffle(available_moves_cpy.begin() + 1, available_moves_cpy.end(), std::default_random_engine(num));
 
-  // If not randomly, we use a greedy simulation
-
-  // Init data
-  float cost = 0.0f;
-  int last = node->current_location;
-  std::unordered_set<int> visited(available_moves.begin(), available_moves.end());
-  int index = 0;
-
-  // Until we have visited all
-  while (!visited.empty())
-  {
-    // best init
-    int best_node = -1;
-    float best = std::numeric_limits<float>::max();
-
-    // Find best
-    for (auto it = visited.begin(); it != visited.end(); ++it)
-    {
-      float dist = tsp->get_distance_between(last, *it);
-      if (dist < best)
+      // Gather cost
+      float cost = this->tsp->get_distance_between(node->current_location, available_moves_cpy[0]);
+      cost += this->tsp->get_distance_between(available_moves_cpy.back(), 0);
+      for (unsigned int i = 1; i < available_moves_cpy.size(); i++)
       {
-        best = dist;
-        best_node = *it;
+        cost += tsp->get_distance_between(available_moves_cpy[i - 1], available_moves_cpy[i]);
       }
+      if (cost < nested_best)
+      {
+        nested_best = cost;
+        available_moves = available_moves_cpy;
+      }
+      continue;
     }
 
-    // Gather data
-    cost += best;
-    last = best_node;
-    available_moves[index++] = last;
-    visited.erase(last);
+    // If not randomly, we use a greedy simulation
+
+    // Init data
+    float cost = tsp->get_distance_between(node->current_location, available_moves_cpy[0]);
+    int last = available_moves_cpy[0];
+    std::unordered_set<int> not_visited(available_moves_cpy.begin() + 1, available_moves_cpy.end());
+    int index = 1;
+
+    // Until we have visited all
+    while (!not_visited.empty())
+    {
+      // best init
+      int best_node = -1;
+      float best = std::numeric_limits<float>::max();
+
+      // Find best
+      for (auto it = not_visited.begin(); it != not_visited.end(); ++it)
+      {
+        float dist = tsp->get_distance_between(last, *it);
+        if (dist < best)
+        {
+          best = dist;
+          best_node = *it;
+        }
+      }
+
+      // Gather data
+      cost += best;
+      last = best_node;
+      available_moves_cpy[index++] = last;
+      not_visited.erase(last);
+    }
+
+    cost += tsp->get_distance_between(last, 0);
+
+    if (cost < nested_best)
+    {
+      nested_best = cost;
+      available_moves = available_moves_cpy;
+    }
   }
 
-  return cost + tsp->get_distance_between(last, 0);
+  return nested_best;
 }
 
 float FullPathMCTSAgent::score(FP_Node *node)
